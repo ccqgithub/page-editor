@@ -4,10 +4,10 @@
   "description": "## 介绍",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development APP_ENV=local pm2 startOrRestart config/pm2.conf.js  --only=page-editor-local && cross-env NODE_ENV=development APP_ENV=local pm2 log",
-    "release-test": "cross-env NODE_ENV=production APP_ENV=test pm2 startOrRestart config/pm2.conf.js --only=page-editor-test",
-    "release-prod": "cross-env NODE_ENV=production APP_ENV=prod pm2 startOrRestart config/pm2.conf.js --only=page-editor-prod",
+    "test": "pm2 --version",
+    "dev": "cross-env NODE_ENV=development APP_ENV=local pm2 startOrReload config/pm2.config.js  --only=page-editor-local && cross-env NODE_ENV=development APP_ENV=local pm2 log",
+    "release-test": "cross-env NODE_ENV=production APP_ENV=test pm2 startOrReload config/pm2.config.js --only=page-editor-test",
+    "release-prod": "cross-env NODE_ENV=production APP_ENV=prod pm2 startOrReload config/pm2.config.js --only=page-editor-prod",
     "pass": "node script/generate-pass.js"
   },
   "repository": {
@@ -56,7 +56,7 @@
     "mongoose": "^4.9.5",
     "nodemailer": "^2.6.4",
     "npm": "^3.10.5",
-    "pm2": "^2.4.5",
+    "pm2": "^2.7.0",
     "pofile": "^1.0.2",
     "request": "^2.74.0",
     "sitemap": "^1.8.1",

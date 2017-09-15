@@ -23,6 +23,11 @@ router.get('/login', function * (next) {
   yield this.render('login', this.state.locals);
 });
 
+router.get('/logout', function * (next) {
+  this.session.user = null;
+  this.body = 'ok';
+});
+
 // login
 router.post('/api/login', function * (next) {
   var data = this.request.body;
@@ -36,14 +41,14 @@ router.post('/api/login', function * (next) {
     ]
   }).exec();
 
-  sha1.update(data.password + this.state.passwordKey);
+  sha1.update(data.password + this.state.config.passwordKey);
   password = sha1.digest('hex');
 
   if (!find) {
     this.throw('user is not exist!');
   }
 
-  if (find.username !== password) {
+  if (find.password !== password) {
     this.throw('password is not correct!');
   }
 
