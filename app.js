@@ -6,10 +6,8 @@
 
 var fs = require('fs');
 var path = require('path');
-var yaml = require('js-yaml');
-
-var env = process.env.SITE_PROD_ENV || 'local';
-var config = require(path.join(__dirname, './config/env', env + '.js'));
+var env = process.env.APP_ENV || 'local';
+var config = require('./config/env.conf');
 
 // env
 process.env.DEBUG = config.debug;
@@ -34,7 +32,7 @@ var mongoose = require('mongoose');
 var app = koa();
 
 app.env = env;
-app.name = 'i18n-service';
+app.name = 'page-editor';
 app.proxy = true; //如果为 true，则解析 "Host" 的 header 域，并支持 X-Forwarded-Host
 app.subdomainOffset = 2; //默认为2，表示 .subdomains 所忽略的字符偏移量。
 app.root = __dirname;
@@ -77,7 +75,7 @@ app.use(morgan.middleware('combined', {
 }));
 
 // 开启session
-app.keys = ["You're right, i am i18n-service !"];
+app.keys = ["You're right, i am page-editor !"];
 app.use(session(app));
 
 // 总入口
@@ -157,7 +155,6 @@ app.use(views(path.join(__dirname, './view'), {
 
 // router
 app.use(require('./router/main').routes());
-app.use(require('./router/client').routes());
 
 // 404
 app.use(function * (next) {

@@ -11,7 +11,7 @@ var crypto = require('crypto');
 var router = require('koa-router')();
 var debug = require('debug')('app:router-main');
 var authLogin = require('../middleware/auth-login');
-var LocaleService = require('../service/locale-service');
+var UserSchema = require('../db/schema/user')
 
 // 首页
 router.get('/', authLogin(), function * (next) {
@@ -28,19 +28,29 @@ router.post('/api/login', function * (next) {
   var data = this.request.body;
   var sha1 = crypto.createHash('sha1');
   var password;
+  var connection = this.state.getDB();
+  var UserModel = connection.model('User', UserSchema, 'user');
+  var find = yield UserModel.findOne({
+    $and: [
+      { username: { $eq: data.username } },
+    ]
+  }).exec();
 
-  sha1.update(data.password + 'ooxxxx');
+  sha1.update(data.password + this.state.passwordKey);
   password = sha1.digest('hex');
 
-  if (
-    this.state.config.loginUser != data.username ||
-    this.state.config.loginPass != password
-  ) {
-    this.throw('用户名或密码不对');
+  if (!find) {
+    this.throw('user is not exist!');
   }
 
-  this.session.user = {id: data.username, username: data.username};
-  this.state.result = this.session.user;
+  if (find.username !== password) {
+    this.throw('password is not correct!');
+  }
+
+  delete find.password;
+
+  this.session.user = find;
+  this.state.result = this.find;
 });
 
 // siteList
