@@ -6,6 +6,8 @@
 .idea
 .tags**
 
+package-lock.json
+
 node_modules
 
 /public
