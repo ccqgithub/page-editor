@@ -2,10 +2,10 @@
  * 配置server端，不同发布环境的一些信息
  */
 
-var APP_ENV = process.env.APP_ENV || 'local'
-var configs = {}
+let APP_ENV = process.env.APP_ENV || 'local'
+let configs = {}
 
-var common = {
+let common = {
   env: APP_ENV,
   debug: 'app:*',
   port: 50011,

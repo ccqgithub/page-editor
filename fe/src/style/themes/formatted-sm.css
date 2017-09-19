@@ -1,0 +1,102 @@
+@media (min-width: 768px) {
+  .formatted-sm {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .formatted-sm input,
+  .formatted-sm label,
+  .formatted-sm select {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .formatted-sm textarea,
+  .formatted-sm input {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .formatted-sm textarea {
+    max-width: 490px;
+  }
+
+  .formatted-sm .form {
+    margin: 72px 0 12px 0;
+  }
+
+  .formatted-sm img,
+  .formatted-sm iframe,
+  .formatted-sm video,
+  .formatted-sm .ce-element--type-image,
+  .formatted-sm .ce-element--type-video,
+  .formatted-sm [data-ce-tag=img] {
+    margin-top: 18px;
+  }
+
+  .formatted-sm video,
+  .formatted-sm iframe {
+    width: 100vw !important;
+    height: 75vw !important;
+  }
+
+  .formatted-sm .ce-element--type-image.above-heading,
+  .formatted-sm img.above-heading,
+  .formatted-sm [data-ce-tag=img].above-heading {
+    margin-top: 48px;
+  }
+
+  .formatted-sm ul,
+  .formatted-sm ol {
+    margin-top: 18px;
+  }
+
+  .formatted-sm table {
+    margin-top: 18px;
+  }
+
+  .formatted-sm table.v-head th:first-child,
+  .formatted-sm table.v-head td:first-child {
+    width: 200px;
+  }
+
+  .formatted-sm blockquote {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .formatted-sm blockquote {
+    padding: 0 10px 0 55px;
+  }
+
+  .formatted-sm h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .formatted-sm h2 {
+    margin: 48px 0 12px 0;
+  }
+
+  .formatted-sm h3 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .formatted-sm h3 {
+    margin: 36px 0 12px 0;
+  }
+
+  .formatted-sm p {
+    margin-top: 18px;
+  }
+
+  .formatted-sm pre {
+    margin-top: 18px;
+  }
+
+  .formatted-sm p.definition {
+    font-size: 18px;
+    margin-top: 24px;
+  }
+}

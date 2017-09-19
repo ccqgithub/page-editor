@@ -1,11 +1,11 @@
-var crypto = require('crypto');
-var mongoose = require('mongoose');
-var config = require('../config/env.conf');
-var db = mongoose.connect(config.mongoServer);
-var co = require('co');
-var sha1, password;
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const config = require('../config/server/env.conf');
+const db = mongoose.connect(config.mongoServer);
+const co = require('co');
+const sha1, password;
 
-var user = {
+const user = {
   username: 'test',
   password: '123456',
   role: 'editor', // admin, editor, other
@@ -16,10 +16,10 @@ sha1.update(user.password + config.passwordKey);
 password = sha1.digest('hex');
 user.password = password;
 
-co(function * () {
-  var UserSchema = require('../db/schema/user');
-  var UserModel = db.model('User', UserSchema, 'user');
-  var result = yield UserModel.create(user);
+(async () => {
+  let UserSchema = require('../server/db/schema/user');
+  let UserModel = db.model('User', UserSchema, 'user');
+  let result = await UserModel.create(user);
 
   console.log(result);
-});
+})();

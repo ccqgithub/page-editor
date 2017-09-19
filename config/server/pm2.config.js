@@ -1,10 +1,10 @@
 /**
  * 配置pm2发布
  */
-var path = require('path')
+const path = require('path')
 
-var serverRoot = path.join(__dirname, '../')
-var common = {
+const serverRoot = path.join(__dirname, '../../server/')
+const common = {
   cwd: serverRoot,
   name: 'page-editor-local',
   script: path.join(serverRoot, './app.js'),
@@ -13,8 +13,8 @@ var common = {
     'NODE_ENV': process.env.NODE_ENV || 'development',
     'APP_ENV':  process.env.APP_ENV || 'local'
   },
-  error_file: path.resolve(serverRoot, './log/pm2.log'),
-  out_file: path.join(serverRoot, './log/pm2.log'),
+  error_file: path.resolve(serverRoot, '../log/pm2.log'),
+  out_file: path.join(serverRoot, '../log/pm2.log'),
   ignore_watch: ['log'],
   combine_logs: true,
 }
