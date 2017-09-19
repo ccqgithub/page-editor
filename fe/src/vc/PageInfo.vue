@@ -14,6 +14,8 @@
 <script>
 import $ from 'jquery';
 import 'ContentTools/build/content-tools';
+import ossUploader from '../lib/oss-uploader';
+
 import 'ContentTools/build/content-tools.min.css';
 import '../style/themes/formatted.css';
 import '../style/themes/formatted-sm.css';
@@ -31,6 +33,11 @@ export default {
     let editor = ContentTools
       .EditorApp
       .get();
+
+    ContentTools.IMAGE_UPLOADER = ossUploader;
+    ContentTools.StylePalette.add([
+      new ContentTools.Style('Footer', 'footer', ['p'])
+    ]);
 
     editor.init('*[data-editable]', 'data-name');
 
@@ -120,5 +127,6 @@ body {
   overflow: auto;
   background: #fff;
   margin: 0 auto;
+  padding-bottom: 50px;
 }
 </style>

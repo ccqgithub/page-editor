@@ -167,4 +167,45 @@ router.post('/api/addPage', authLogin(), async (ctx, next) => {
   ctx.state.result = result;
 });
 
+// oos上传文件数据
+router.get('/api/upload/meta', authLogin(), async (ctx, next) => {
+  let ossConfig = require('../../config/server/non-env.conf').ossConfig;
+  let ISODateString = function(d) {
+    function pad(n){
+      return n < 10 ? '0' + n : n
+    }
+    return d.getUTCFullYear()+'-'
+      + pad(d.getUTCMonth()+1)+'-'
+      + pad(d.getUTCDate())+'T'
+      + pad(d.getUTCHours())+':'
+      + pad(d.getUTCMinutes())+':'
+      + pad(d.getUTCSeconds())+'Z';
+  };
+
+  let expiration = ISODateString(new Date(new Date().getTime() + 180000));
+  let policy = {
+    "expiration": expiration,
+    "conditions": [
+      { "bucket": ossConfig.bucket },
+      [ "content-length-range", 0, 500 * 1024 * 1024]
+    ]
+  };
+
+  let policyStr = new Buffer(JSON.stringify(policy)).toString('base64');
+  let signature = crypto
+    .createHmac('sha1', ossConfig.accessKeySecret)
+    .update(policyStr)
+    .digest()
+    .toString('base64');
+
+  ctx.state.result = {
+    OSSAccessKeyId: ossConfig.accessKeyId,
+    policy: policyStr,
+    signature: signature,
+    success_action_status: 201,
+    bucket: ossConfig.bucket,
+    bucketUrl: ossConfig.bucketUrl,
+  }
+});
+
 module.exports = router;
