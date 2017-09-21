@@ -13,13 +13,7 @@
 
 <script>
 import $ from 'jquery';
-import 'ContentTools/build/content-tools';
-import ossUploader from '../lib/oss-uploader';
-
-import 'ContentTools/build/content-tools.min.css';
-import '../style/themes/formatted.css';
-import '../style/themes/formatted-sm.css';
-import '../style/themes/formatted-lg.css';
+import ContentTools from '../lib/content-tools';
 
 export default {
   data() {
@@ -33,11 +27,6 @@ export default {
     let editor = ContentTools
       .EditorApp
       .get();
-
-    ContentTools.IMAGE_UPLOADER = ossUploader;
-    ContentTools.StylePalette.add([
-      new ContentTools.Style('Footer', 'footer', ['p'])
-    ]);
 
     editor.init('*[data-editable]', 'data-name');
 
@@ -128,5 +117,19 @@ body {
   background: #fff;
   margin: 0 auto;
   padding-bottom: 50px;
+}
+
+.ce-element--type-image {
+  img {
+    display: inline-block;
+    width: 100%!important;
+    height: auto!important;
+    margin: 0!important;
+    vertical-align: middle;
+  }
+
+  &::after{
+    display: none!important;
+  }
 }
 </style>

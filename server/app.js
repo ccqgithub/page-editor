@@ -115,7 +115,9 @@ app.use(morgan('combined', {
 }));
 
 // 开启session
-app.use(session(app));
+app.use(session({
+  maxAge: 86400000,
+}, app));
 
 // 总入口
 app.use(async (ctx, next) => {

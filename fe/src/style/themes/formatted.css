@@ -526,8 +526,15 @@
   cursor: help;
 }
 
+/*styles*/
 .formatted p.footer {
   padding-top: 50px;
   font-size: 12px;
   color: #ccc;
+}
+.formatted p.clear-float {
+  clear: both;
+}
+.formatted img.stay-left {
+  margin: 0 auto 0 0;
 }

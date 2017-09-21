@@ -4,6 +4,6 @@
 module.exports = {
   // aliyun oss config
   ossConfig: {
-  //
+    
   }
 }

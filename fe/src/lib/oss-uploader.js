@@ -173,10 +173,10 @@ export default function ossUploader(dialog) {
     let nh = image.height;
 
     if (cropRegion) {
+      let x = parseInt(cropRegion[0] * image.width);
+      let y = parseInt(cropRegion[1] * image.height);
       let w = parseInt(cropRegion[2] * image.width);
       let h = parseInt(cropRegion[3] * image.height);
-      let x = parseInt(cropRegion[0] * image.width);
-      let y = parseInt(cropRegion[1] * image.width);
 
       if (image.url.indexOf('x-oss-process') == -1) {
         image.url += `?x-oss-process=image/crop,x_${x},y_${y},w_${w},h_${h}`;
@@ -190,11 +190,10 @@ export default function ossUploader(dialog) {
 
     dialog.save(
       image.url,
-      [nw, nh],
+      [200, parseInt(200 * nh / nw)],
       {
         'alt': '222',
         'data-ce-max-width': nw,
-        'data-top': `${nh / nw * 100 + '%'}`,
       }
     );
   });
