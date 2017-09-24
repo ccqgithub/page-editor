@@ -7,7 +7,7 @@
     "test": "pm2 --version",
     "dev": "cross-env NODE_ENV=development APP_ENV=local pm2 startOrRestart config/server/pm2.config.js --only=page-editor-local && cross-env NODE_ENV=development APP_ENV=local pm2 logs page-editor-local",
     "prod": "cross-env NODE_ENV=production APP_ENV=prod webpack --config build/fe/webpack.conf.js && cross-env NODE_ENV=production APP_ENV=prod pm2 startOrRestart config/server/pm2.config.js --only=page-editor-prod",
-    "test-build": "cross-env NODE_ENV=development APP_ENV=local webpack --config build/fe/webpack.conf.js",
+    "test-build": "cross-env NODE_ENV=production APP_ENV=prod webpack --config build/fe/webpack.conf.js",
     "pass": "node script/generate-pass.js"
   },
   "repository": {

@@ -2,9 +2,7 @@ import 'ContentTools/build/content-tools';
 import ossUploader from './oss-uploader';
 
 import 'ContentTools/build/content-tools.min.css';
-import '../style/themes/formatted.css';
-import '../style/themes/formatted-sm.css';
-import '../style/themes/formatted-lg.css';
+import '../style/themes/default.less';
 
 let ContentTools = window.ContentTools;
 let ContentEdit = window.ContentEdit;

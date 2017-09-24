@@ -5,8 +5,14 @@
     loading...
   </div>
 
-  <div class="content formatted" data-editable data-name="content" v-html="pageInfo.content">
+  <div class="content pe-theme-default" :class="[size, 'is-size-' + size]" data-editable data-name="content" v-html="pageInfo.content">
 
+  </div>
+
+  <div class="size-ctrl">
+    <a href="javascript:;" :class="{active: size == ''}" @click="changeSize('')">小</a>
+    <a href="javascript:;" :class="{active: size == 'md'}" @click="changeSize('md')">中</a>
+    <a href="javascript:;" :class="{active: size == 'lg'}" @click="changeSize('lg')">大</a>
   </div>
 </div>
 </template>
@@ -20,6 +26,7 @@ export default {
     return {
       isLoading: false,
       pageInfo: window.pageInfo,
+      size: '',
     }
   },
   mounted: function() {
@@ -72,6 +79,11 @@ export default {
         alert('error');
       }.bind(this));
     });
+  },
+  methods: {
+    changeSize(size) {
+      this.size = size;
+    }
   }
 }
 </script>
@@ -90,6 +102,33 @@ html {
 body {
   height: 100%;
   background: rgb(37, 36, 38);
+}
+
+.size-ctrl {
+  position: fixed;
+  left: 0;
+  bottom: 100px;
+  width: 30px;
+  z-index: 99;
+  background: rgba(232, 232, 232, 0.9);
+
+  a {
+    display: block;
+    text-align: center;
+    line-height: 30px;
+    text-decoration: none;
+    color: #666;
+    border-bottom: 1px solid #999;
+
+    &.active {
+      background: #2980b9;
+      color: #fff;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
 }
 
 /*loading*/
@@ -117,6 +156,14 @@ body {
   background: #fff;
   margin: 0 auto;
   padding-bottom: 50px;
+
+  &.md {
+    width: 768px;
+  }
+
+  &.lg {
+    width: 1024px;
+  }
 }
 
 .ce-element--type-image {

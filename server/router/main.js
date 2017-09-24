@@ -11,6 +11,7 @@ const crypto = require('crypto');
 const router = require('koa-router')();
 const debug = require('debug')('app:router-main');
 const authLogin = require('../middleware/auth-login');
+const authPerm = require('../middleware/auth-perm');
 const UserSchema = require('../db/schema/user');
 const PageSchema = require('../db/schema/page');
 
@@ -20,7 +21,7 @@ router.get('/', authLogin(),async (ctx, next) => {
 });
 
 // 页面详情
-router.get('/pages/:pageId', authLogin(),async (ctx, next) => {
+router.get('/pages/:pageId', authLogin(), async (ctx, next) => {
   let pageId = ctx.params.pageId;
   let connection = ctx.state.getDB();
   let PageModel = connection.model('Page', PageSchema, 'page');
@@ -98,74 +99,94 @@ router.get('/api/pages', authLogin(), async (ctx, next) => {
 
 
 // edit item
-router.post('/api/editPage', authLogin(), async (ctx, next) => {
-  let id = ctx.request.body._id;
-  let name = ctx.request.body.name;
-  let description = ctx.request.body.description;
-  let connection = ctx.state.getDB();
-  let PageModel = connection.model('Page', PageSchema, 'page');
+router.post(
+  '/api/editPage',
+  authLogin(),
+  authPerm(['admin']),
+  async (ctx, next) => {
+    let id = ctx.request.body._id;
+    let name = ctx.request.body.name;
+    let description = ctx.request.body.description;
+    let connection = ctx.state.getDB();
+    let PageModel = connection.model('Page', PageSchema, 'page');
 
-  let updateResult = await PageModel.update({
-    _id: id
-  }, {
-    name: name,
-    description: description,
-  }).exec();
+    let updateResult = await PageModel.update({
+      _id: id
+    }, {
+      name: name,
+      description: description,
+    }).exec();
 
-  ctx.state.result = updateResult;
-});
+    ctx.state.result = updateResult;
+  }
+);
 
-router.post('/api/editPageContent', authLogin(), async (ctx, next) => {
-  let id = ctx.request.body._id;
-  let content = ctx.request.body.content;
-  let connection = ctx.state.getDB();
-  let PageModel = connection.model('Page', PageSchema, 'page');
+router.post(
+  '/api/editPageContent',
+  authLogin(),
+  authPerm(['admin', 'editor']),
+  async (ctx, next) => {
+    let id = ctx.request.body._id;
+    let content = ctx.request.body.content;
+    let connection = ctx.state.getDB();
+    let PageModel = connection.model('Page', PageSchema, 'page');
 
-  let updateResult = await PageModel.update({
-    _id: id
-  }, {
-    content: content,
-  }).exec();
+    let updateResult = await PageModel.update({
+      _id: id
+    }, {
+      content: content,
+    }).exec();
 
-  ctx.state.result = updateResult;
-});
+    ctx.state.result = updateResult;
+  }
+);
 
 // delete item
-router.post('/api/deletePage', authLogin(), async (ctx, next) => {
-  let id = ctx.request.body._id;
-  let connection = ctx.state.getDB();
-  let PageModel = connection.model('Page', PageSchema, 'page');
+router.post(
+  '/api/deletePage',
+  authLogin(),
+  authPerm(['admin']),
+  async (ctx, next) => {
+    let id = ctx.request.body._id;
+    let connection = ctx.state.getDB();
+    let PageModel = connection.model('Page', PageSchema, 'page');
 
-  let updateResult = await PageModel.deleteOne({
-    _id: id
-  }).exec();
+    let updateResult = await PageModel.deleteOne({
+      _id: id
+    }).exec();
 
-  ctx.state.result = id;
-});
+    ctx.state.result = id;
+  }
+);
 
 // add item
-router.post('/api/addPage', authLogin(), async (ctx, next) => {
-  let data = ctx.request.body;
-  let connection = ctx.state.getDB();
-  let PageModel = connection.model('Page', PageSchema, 'page');
-  let find = await PageModel.findOne({
-    $and: [
-      { name: { $eq: data.name } },
-    ]
-  }).exec();
+router.post(
+  '/api/addPage',
+  authLogin(),
+  authPerm(['admin']),
+  async (ctx, next) => {
+    let data = ctx.request.body;
+    let connection = ctx.state.getDB();
+    let PageModel = connection.model('Page', PageSchema, 'page');
+    let find = await PageModel.findOne({
+      $and: [
+        { name: { $eq: data.name } },
+      ]
+    }).exec();
 
-  if (find) {
-    throw new Error('内容已存在！');
-  };
+    if (find) {
+      throw new Error('内容已存在！');
+    };
 
-  let result = await PageModel.create({
-    name: data.name,
-    description: data.description,
-    content: data.content || ''
-  });
+    let result = await PageModel.create({
+      name: data.name,
+      description: data.description,
+      content: data.content || ''
+    });
 
-  ctx.state.result = result;
-});
+    ctx.state.result = result;
+  }
+);
 
 // oos上传文件数据
 router.get('/api/upload/meta', authLogin(), async (ctx, next) => {

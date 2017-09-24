@@ -15,7 +15,7 @@
 - `config/env.conf.js`: 配置不同发布环境的相关参数
 - `package.json > scripts`: 配置便捷发布
 
-## 启动service
+## 启动
 
 ```sh
 # 进入目录
